@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "Eurostile BQ";
+    src: url('font/Eurostile-Bold-Extended-Font.otf');
+    font-display: swap;
+}
+body {
+    background-color: #bab6b6 !important;
+    font-family: 'Eurostile BQ', sans-serif !important;
+    margin: 0;
+    padding: 0;
+}

@@ -23,16 +23,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.11</java.version>
-        <org.webjars.version>4.5.0</org.webjars.version>
-        <org.webjars.table>1.16.0</org.webjars.table>
+        <org.webjars.version>4.5.2</org.webjars.version>
         <org.webjars.jquery>3.5.1</org.webjars.jquery>
-        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
-        <!--Springboot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -44,6 +41,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--Bootstrap-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${org.webjars.version}</version>
+        </dependency>
+        <!-- Jquery -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${org.webjars.jquery}</version>
         </dependency>
     </dependencies>
 
