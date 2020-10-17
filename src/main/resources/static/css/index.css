@@ -9,3 +9,12 @@ body {
     margin: 0;
     padding: 0;
 }
+.display-container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.canvasChartsLook {
+    width: 90%;
+    height: 400px;
+    padding-bottom: 30px;
+}
