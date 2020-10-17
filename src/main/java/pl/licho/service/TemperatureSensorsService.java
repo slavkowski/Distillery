@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TemperatureSensorsService {
     List<TemperatureSensorsDto> getTemperatureSensorsData();
+    void readTemperatures();
 }

@@ -23,6 +23,11 @@ public class DistilleryServiceImpl implements DistilleryService {
     public DistilleryDataDto getDistilleryData() {
 
         List<TemperatureSensorsDto> temperatureSensorsDtos = temperatureSensorsService.getTemperatureSensorsData();
+        int sizeOfTheSet = temperatureSensorsDtos.size();
+        if (sizeOfTheSet == 0) {
+            return null;
+        }
+
         int indexOfLastElementInList = temperatureSensorsDtos.size() - 1;
         TemperatureSensorsDto temperatureSensorsDto = temperatureSensorsDtos.get(indexOfLastElementInList);
 
@@ -41,7 +46,31 @@ public class DistilleryServiceImpl implements DistilleryService {
             ZoneId zone = ZoneId.of("Europe/Berlin");
             LocalDateTime ldt = instant.atZone(zone).toLocalDateTime();
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            sB.append(System.lineSeparator()).append(ldt.format(fmt)).append(",").append(data.getLevel1()).append(",").append(data.getLevel2()).append(",").append(data.getLevel3()).append(",").append(data.getLevel4());
+
+            float t1  = data.getLevel1();
+            float t2  = data.getLevel2();
+            float t3  = data.getLevel3();
+            float t4  = data.getLevel4();
+
+            String t1Str = "";
+            String t2Str = "";
+            String t3Str = "";
+            String t4Str = "";
+
+            if (t1 != -999.9f && t1 != -666.6f){
+                t1Str = Float.toString(t1);
+            }
+            if (t2 != -999.9f && t2 != -666.6f){
+                t2Str = Float.toString(t2);
+            }
+            if (t3 != -999.9f && t3 != -666.6f){
+                t3Str = Float.toString(t3);
+            }
+            if (t4 != -999.9f && t4 != -666.6f){
+                t4Str = Float.toString(t4);
+            }
+
+            sB.append(System.lineSeparator()).append(ldt.format(fmt)).append(",").append(t1Str).append(",").append(t2Str).append(",").append(t3Str).append(",").append(t4Str);
         }
         distilleryDataDto.setChart(sB.toString());
         return distilleryDataDto;

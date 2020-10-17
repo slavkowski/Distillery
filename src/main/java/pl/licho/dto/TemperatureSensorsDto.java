@@ -48,4 +48,15 @@ public class TemperatureSensorsDto {
     public void setTs(Timestamp ts) {
         this.ts = ts;
     }
+
+    @Override
+    public String toString() {
+        return "TemperatureSensorsDto{" +
+                "level1=" + level1 +
+                ", level2=" + level2 +
+                ", level3=" + level3 +
+                ", level4=" + level4 +
+                ", ts=" + ts +
+                '}';
+    }
 }
