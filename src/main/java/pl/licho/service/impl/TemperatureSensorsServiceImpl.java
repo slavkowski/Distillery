@@ -37,7 +37,6 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
 
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         temperatureSensorsDto.setTs(ts);
-        LOG.warn(ts.toString());
 
         int i = 0;
         for (String sensor : sensors) {
@@ -100,7 +99,7 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
         Random r = new Random();
         float wynik;
         float rnd = 20.0f + r.nextFloat() * (120.0f - 20.0f);
-        if (rnd <= 30.0f) {
+        if (rnd <= 22.0f) {
             wynik = -999.9f;
         } else {
             wynik = rnd;
