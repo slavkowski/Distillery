@@ -23,7 +23,7 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
 
     private static List<TemperatureSensorsDto> temperatureSensorsDtoList = new ArrayList<>();
 
-    List<String> sensors = Arrays.asList("1", "2", "3", "4");
+    List<String> sensors = Arrays.asList("28-8a190318f0ff", "28-8a20284233ff", "28-8a20283e22ff", "28-8a2028580eff");
 
     @Override
     public List<TemperatureSensorsDto> getTemperatureSensorsData() {
@@ -76,21 +76,21 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
         String[] tempLine;
         List<String> data = new ArrayList<>(2);
 
-//        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
-//        BufferedReader br = new BufferedReader(fr);
-//
-//        while ((line = br.readLine()) != null) {
-//            tempLine = line.split(" ");
-//            data.add(tempLine[tempLine.length - 1]);
-//        }
-//        if (data.get(0).equals("YES")) {
-//            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
-//        } else {
-//            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
-//        }
-//        br.close();
+        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
+        BufferedReader br = new BufferedReader(fr);
 
-        temp = generateRandomFloat();
+        while ((line = br.readLine()) != null) {
+            tempLine = line.split(" ");
+            data.add(tempLine[tempLine.length - 1]);
+        }
+        if (data.get(0).equals("YES")) {
+            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
+        } else {
+            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
+        }
+        br.close();
+
+//        temp = generateRandomFloat();
         return temp;
     }
 
