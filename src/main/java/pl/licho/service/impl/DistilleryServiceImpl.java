@@ -16,6 +16,8 @@ import java.util.List;
 @Service
 public class DistilleryServiceImpl implements DistilleryService {
 
+    private static int lastRecordsNumber = 5;
+
     @Autowired
     TemperatureSensorsService temperatureSensorsService;
 
@@ -39,40 +41,65 @@ public class DistilleryServiceImpl implements DistilleryService {
         distilleryDataDto.setLevel4(temperatureSensorsDto.getLevel4());
         distilleryDataDto.setTs(temperatureSensorsDto.getTs());
 
+        distilleryDataDto.setChart(getAllData(temperatureSensorsDtos));
+        distilleryDataDto.setLimitedChart(getLimitedData(temperatureSensorsDtos, lastRecordsNumber));
+        return distilleryDataDto;
+    }
+
+    private String getLimitedData(List<TemperatureSensorsDto> temperatureSensorsDtos, int lastRecordsNumber) {
         StringBuilder sB = new StringBuilder();
         sB.append("Czas, Poziom 1, Poziom 2, Poziom 3, Poziom 4");
-        for (TemperatureSensorsDto data : temperatureSensorsDtos) {
-            Instant instant = data.getTs().toInstant();
+        sB.append(getStringData(temperatureSensorsDtos, lastRecordsNumber));
+        return sB.toString();
+    }
+
+
+    private String getAllData(List<TemperatureSensorsDto> temperatureSensorsDtos) {
+        StringBuilder sB = new StringBuilder();
+        sB.append("Czas, Poziom 1, Poziom 2, Poziom 3, Poziom 4");
+        sB.append(getStringData(temperatureSensorsDtos, temperatureSensorsDtos.size()));
+        return sB.toString();
+    }
+
+    private String getStringData(List<TemperatureSensorsDto> temperatureSensorsDtos, int lastRecordsNumber) {
+        StringBuilder sB = new StringBuilder();
+
+        int startPosition = 0;
+
+        if(temperatureSensorsDtos.size() > lastRecordsNumber){
+            startPosition = temperatureSensorsDtos.size() - lastRecordsNumber;
+        }
+
+        for (int i = startPosition; i < temperatureSensorsDtos.size(); i++) {
+            Instant instant = temperatureSensorsDtos.get(i).getTs().toInstant();
             ZoneId zone = ZoneId.of("Europe/Berlin");
             LocalDateTime ldt = instant.atZone(zone).toLocalDateTime();
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
-            float t1  = data.getLevel1();
-            float t2  = data.getLevel2();
-            float t3  = data.getLevel3();
-            float t4  = data.getLevel4();
+            float t1 = temperatureSensorsDtos.get(i).getLevel1();
+            float t2 = temperatureSensorsDtos.get(i).getLevel2();
+            float t3 = temperatureSensorsDtos.get(i).getLevel3();
+            float t4 = temperatureSensorsDtos.get(i).getLevel4();
 
             String t1Str = "";
             String t2Str = "";
             String t3Str = "";
             String t4Str = "";
 
-            if (t1 != -999.9f && t1 != -666.6f){
+            if (t1 != -999.9f && t1 != -666.6f) {
                 t1Str = Float.toString(t1);
             }
-            if (t2 != -999.9f && t2 != -666.6f){
+            if (t2 != -999.9f && t2 != -666.6f) {
                 t2Str = Float.toString(t2);
             }
-            if (t3 != -999.9f && t3 != -666.6f){
+            if (t3 != -999.9f && t3 != -666.6f) {
                 t3Str = Float.toString(t3);
             }
-            if (t4 != -999.9f && t4 != -666.6f){
+            if (t4 != -999.9f && t4 != -666.6f) {
                 t4Str = Float.toString(t4);
             }
-
             sB.append(System.lineSeparator()).append(ldt.format(fmt)).append(",").append(t1Str).append(",").append(t2Str).append(",").append(t3Str).append(",").append(t4Str);
         }
-        distilleryDataDto.setChart(sB.toString());
-        return distilleryDataDto;
+        return sB.toString();
     }
 }

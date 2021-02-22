@@ -8,8 +8,16 @@ public class DistilleryDataDto {
     private float level3;
     private float level4;
     private String chart;
+    private String limitedChart;
     private Timestamp ts;
 
+    public String getLimitedChart() {
+        return limitedChart;
+    }
+
+    public void setLimitedChart(String limitedChart) {
+        this.limitedChart = limitedChart;
+    }
 
     public float getLevel1() {
         return level1;

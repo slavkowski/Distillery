@@ -31,7 +31,7 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
     }
 
     @Override
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "*/15 * * * * ?")
     public void readTemperatures() {
         TemperatureSensorsDto temperatureSensorsDto = new TemperatureSensorsDto();
 
@@ -41,7 +41,7 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
         int i = 0;
         for (String sensor : sensors) {
             i++;
-            float temperature = -999.9f;
+            float temperature;
             try {
                 temperature = getTempFromD18B20(sensor);
                 switch (i) {
@@ -60,9 +60,7 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
                 }
 
             } catch (IOException e) {
-                temperatureSensorsDto.setLevel4(temperature);
                 LOG.warn("IO Exception {}", e.toString());
-                e.printStackTrace();
             }
 
         }
@@ -70,27 +68,26 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
     }
 
     public float getTempFromD18B20(String sensorID) throws IOException {
-//        File fileCPU = new File("/sys/class/thermal/thermal_zone0/temp");
         float temp = -666.6f;
-        String line;
-        String[] tempLine;
-        List<String> data = new ArrayList<>(2);
+//        String line;
+//        String[] tempLine;
+//        List<String> data = new ArrayList<>(2);
+//
+//        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
+//        BufferedReader br = new BufferedReader(fr);
+//
+//        while ((line = br.readLine()) != null) {
+//            tempLine = line.split(" ");
+//            data.add(tempLine[tempLine.length - 1]);
+//        }
+//        if (data.get(0).equals("YES")) {
+//            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
+//        } else {
+//            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
+//        }
+//        br.close();
 
-        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
-        BufferedReader br = new BufferedReader(fr);
-
-        while ((line = br.readLine()) != null) {
-            tempLine = line.split(" ");
-            data.add(tempLine[tempLine.length - 1]);
-        }
-        if (data.get(0).equals("YES")) {
-            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
-        } else {
-            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
-        }
-        br.close();
-
-//        temp = generateRandomFloat();
+        temp = generateRandomFloat();
         return temp;
     }
 

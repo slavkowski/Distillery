@@ -60,6 +60,7 @@ public class DistilleryController {
 
         map.addAttribute("last_snap", new SimpleDateFormat("HH:mm:ss").format(distilleryDataDto.getTs()));
         map.addAttribute("chart", distilleryDataDto.getChart());
+        map.addAttribute("limited_chart", distilleryDataDto.getLimitedChart());
         return "index";
     }
 }

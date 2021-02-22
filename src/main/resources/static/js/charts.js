@@ -11,9 +11,22 @@ $(document).ready(function() {
         }
     );
 })
+$(document).ready(function() {
+    new Dygraph(
+        document.getElementById("temp_limited_chart"),
+        limited_chart,
+        {
+            legend: 'never',
+            title: 'Temperatury',
+            showRoller: false,
+            rollPeriod: 1,
+            ylabel: 'T(C°)'
+        }
+    );
+})
 window.setInterval((function(){
-    var seconds = 60;
-    var textNode = document.createTextNode('60');
+    var seconds = 15;
+    var textNode = document.createTextNode('15');
     document.getElementById('seconds-counter').appendChild(textNode);
     return function() {
         seconds -= 1
