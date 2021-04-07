@@ -38,10 +38,32 @@
                 </div>
             </div>
         </div>
+        <div class="input-group">
+            <select class="custom-select" id="newNumber" aria-label="Example select with button addon">
+                <option value="3">3</option>
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="updateNumbers()">Update</button>
+            </div>
+        </div>
         <div class="canvasChartsLook" id="temp_limited_chart"></div>
         <div class="canvasChartsLook" id="temp_chart"></div>
     </div>
 
+    <script>
+        function updateNumbers() {
+            let newNumber = document.getElementById("newNumber").value;
+            $.ajax({
+                url: 'http://localhost:8080/api/update/' + newNumber,
+                type: 'GET',
+                }
+            );
+        }
+    </script>
 
     <script th:inline="javascript">
         /*<![CDATA[*/

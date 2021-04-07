@@ -4,4 +4,7 @@ import pl.licho.dto.DistilleryDataDto;
 
 public interface DistilleryService {
     DistilleryDataDto getDistilleryData();
+    String getLimitedData();
+    String getAllData();
+    void updateNumberOfLastMeasurements(int number);
 }

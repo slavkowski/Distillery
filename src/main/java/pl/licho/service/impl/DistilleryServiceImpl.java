@@ -46,6 +46,31 @@ public class DistilleryServiceImpl implements DistilleryService {
         return distilleryDataDto;
     }
 
+    @Override
+    public String getLimitedData() {
+        List<TemperatureSensorsDto> temperatureSensorsDtos = temperatureSensorsService.getTemperatureSensorsData();
+        int sizeOfTheSet = temperatureSensorsDtos.size();
+        if (sizeOfTheSet == 0) {
+            return null;
+        }
+        return getLimitedData(temperatureSensorsDtos, lastRecordsNumber);
+    }
+
+    @Override
+    public String getAllData() {
+        List<TemperatureSensorsDto> temperatureSensorsDtos = temperatureSensorsService.getTemperatureSensorsData();
+        int sizeOfTheSet = temperatureSensorsDtos.size();
+        if (sizeOfTheSet == 0) {
+            return null;
+        }
+        return getAllData(temperatureSensorsDtos);
+    }
+
+    @Override
+    public void updateNumberOfLastMeasurements(int number) {
+        lastRecordsNumber = number;
+    }
+
     private String getLimitedData(List<TemperatureSensorsDto> temperatureSensorsDtos, int lastRecordsNumber) {
         StringBuilder sB = new StringBuilder();
         sB.append("Czas, Poziom 1, Poziom 2, Poziom 3, Poziom 4");
@@ -54,7 +79,7 @@ public class DistilleryServiceImpl implements DistilleryService {
     }
 
 
-    private String getAllData(List<TemperatureSensorsDto> temperatureSensorsDtos) {
+    public String getAllData(List<TemperatureSensorsDto> temperatureSensorsDtos) {
         StringBuilder sB = new StringBuilder();
         sB.append("Czas, Poziom 1, Poziom 2, Poziom 3, Poziom 4");
         sB.append(getStringData(temperatureSensorsDtos, temperatureSensorsDtos.size()));
