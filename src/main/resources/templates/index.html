@@ -10,32 +10,59 @@
     <title>Moja Destylarnia</title>
 </head>
 <body>
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="d-flex justify-content-center"><h2>ALARM</h2></div>
+        <div class="d-flex justify-content-center"><h4>Przekroczone progi alarmowe:</h4></div>
+        <div id="alert_message" class="d-flex justify-content-center"></div>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-light" onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+</div>
 <div class="container text-center">
     <h4>MOJA DESTYLARNIA</h4>
 </div>
 <div class="container text-center">
-    <div class="row justify-content-center" th:text="'Ostatni pomiar: ' + ${last_snap} + ''">
+    <div id="ts" class="row justify-content-center">
     </div>
     <div class="alert alert-success" role="alert">
-        Następny pomiar za: <span id=seconds-counter></span> sekund.
+        Nowy pomiar za: <span id=seconds-counter></span> sekund.
+    </div>
+    <div>
+        <p>
+            <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                Ustaw progi alarmowe
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                Poziom 1: <span id="level1threshold"></span> Ustaw nowy: <input id="threshold1"><br>
+                Poziom 2: <span id="level2threshold"></span>Ustaw nowy: <input id="threshold2"><br>
+                Poziom 3: <span id="level3threshold"></span>Ustaw nowy: <input id="threshold3"><br>
+                Poziom 4: <span id="level4threshold"></span>Ustaw nowy: <input id="threshold4"><br>
+                <div class="d-flex justify-content-center" style="padding-top: 10px">
+                    <button type="button" class="btn btn-success" onclick="saveThresholds()">ZAPISZ</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-sm display-container">
-                <div class="alert alert-info row justify-content-center" th:text="'Poziom 1: ' + ${level1} + '°C'">
-                </div>
+                <div id="t1" class="alert alert-info row justify-content-center"></div>
             </div>
             <div class="col-sm display-container">
-                <div class="alert alert-primary row justify-content-center" th:text="'Poziom 2: ' + ${level2} + '°C'">
-                </div>
+                <div id="t2" class="alert alert-primary row justify-content-center"></div>
             </div>
             <div class="col-sm display-container">
-                <div class="alert alert-warning row justify-content-center" th:text="'Poziom 3: ' + ${level3} + '°C'">
-                </div>
+                <div id="t3" class="alert alert-warning row justify-content-center"></div>
             </div>
             <div class="col-sm display-container">
-                <div class="alert alert-success row justify-content-center" th:text="'Poziom 4: ' + ${level4} + '°C'">
-                </div>
+                <div id="t4" class="alert alert-success row justify-content-center"></div>
             </div>
         </div>
         <div class="input-group">
@@ -53,36 +80,58 @@
         <div class="canvasChartsLook" id="temp_limited_chart"></div>
         <div class="canvasChartsLook" id="temp_chart"></div>
     </div>
-
-    <script>
-        function updateNumbers() {
-            let newNumber = document.getElementById("newNumber").value;
-            $.ajax({
-                url: 'http://localhost:8080/api/update/' + newNumber,
+</div>
+<script>
+    function updateNumbers() {
+        let newNumber = document.getElementById("newNumber").value;
+        $.ajax({
+                url: 'http://' + window.location.hostname + ':8080/api/update/' + newNumber,
                 type: 'GET',
-                }
-            );
+            }
+        );
+    }
+</script>
+
+<script type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"
+        th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script type="text/javascript" src="../static/js/charts.js"
+        th:src="@{/js/charts.js}"></script>
+<script type="text/javascript" src="../static/js/dygraph.min.js"
+        th:src="@{/js/dygraph.min.js}"></script>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    function showAlert() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    function closeAlert() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
-    </script>
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        let level1 = [[${level1}]];
-        let level2 = [[${level2}]];
-        let level3 = [[${level3}]];
-        let level4 = [[${level4}]];
-
-        let last_snap = [[${last_snap}]];
-
-        let chart = [[${chart}]];
-        let limited_chart = [[${limited_chart}]];
-        /*]]>*/
-    </script>
-    <script type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"
-            th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
-    <script type="text/javascript" src="../static/js/charts.js"
-            th:src="@{/js/charts.js}"></script>
-    <script type="text/javascript" src="../static/js/dygraph.min.js"
-            th:src="@{/js/dygraph.min.js}"></script>
+    }
+</script>
+<!-- jQuery first, then Popper.js, then Bootstrap JS, and then Bootstrap Table JS -->
+<script type="text/javascript" src="webjars/jquery/3.5.1/jquery.min.js"
+        th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+<script src="webjars/popper.js/1.16.0/umd/popper.min.js"
+        th:src="@{/webjars/popper.js/1.16.0/umd/popper.js}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="webjars/bootstrap/4.5.2/js/bootstrap.min.js"
+        th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </body>
 </html>

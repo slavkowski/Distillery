@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.licho.dto.TemperatureSensorsDto;
 import pl.licho.service.DistilleryService;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public class DistilleryRestController {
     @GetMapping("/get/all")
     public ResponseEntity<String> getAll(){
         String jsonResponse = distilleryService.getAllData();
+        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+    }
+    @GetMapping("/get/temps")
+    public ResponseEntity<TemperatureSensorsDto> getTemps(){
+        TemperatureSensorsDto jsonResponse = distilleryService.getTemps();
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
 }

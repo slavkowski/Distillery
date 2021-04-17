@@ -69,25 +69,25 @@ public class TemperatureSensorsServiceImpl implements TemperatureSensorsService 
 
     public float getTempFromD18B20(String sensorID) throws IOException {
         float temp = -666.6f;
-        String line;
-        String[] tempLine;
-        List<String> data = new ArrayList<>(2);
+//        String line;
+//        String[] tempLine;
+//        List<String> data = new ArrayList<>(2);
+//
+//        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
+//        BufferedReader br = new BufferedReader(fr);
+//
+//        while ((line = br.readLine()) != null) {
+//            tempLine = line.split(" ");
+//            data.add(tempLine[tempLine.length - 1]);
+//        }
+//        if (data.get(0).equals("YES")) {
+//            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
+//        } else {
+//            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
+//        }
+//        br.close();
 
-        FileReader fr = new FileReader("/sys/bus/w1/devices/" + sensorID + "/w1_slave");
-        BufferedReader br = new BufferedReader(fr);
-
-        while ((line = br.readLine()) != null) {
-            tempLine = line.split(" ");
-            data.add(tempLine[tempLine.length - 1]);
-        }
-        if (data.get(0).equals("YES")) {
-            temp = (Float.parseFloat(data.get(1).substring(2))) / 1000;
-        } else {
-            LOG.warn("Temperature sensor number: {} is not YES", sensorID);
-        }
-        br.close();
-
-//        temp = generateRandomFloat();
+        temp = generateRandomFloat();
         return temp;
     }
 

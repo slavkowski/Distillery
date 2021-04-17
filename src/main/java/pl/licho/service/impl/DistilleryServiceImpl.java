@@ -67,6 +67,18 @@ public class DistilleryServiceImpl implements DistilleryService {
     }
 
     @Override
+    public TemperatureSensorsDto getTemps() {
+        List<TemperatureSensorsDto> temperatureSensorsDtos = temperatureSensorsService.getTemperatureSensorsData();
+        int sizeOfTheSet = temperatureSensorsDtos.size();
+        if (sizeOfTheSet == 0) {
+            return null;
+        }
+
+        int indexOfLastElementInList = temperatureSensorsDtos.size() - 1;
+        return temperatureSensorsDtos.get(indexOfLastElementInList);
+    }
+
+    @Override
     public void updateNumberOfLastMeasurements(int number) {
         lastRecordsNumber = number;
     }
